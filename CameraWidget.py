@@ -1,5 +1,7 @@
 __author__ = 'michal'
 
+import numpy
+import cv2
 import cv
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -21,6 +23,8 @@ class CameraWidget(QWidget):
         self.setMinimumHeight(height)
         self.setMinimumWidth(width)
 
+        self._faceCascade = cv2.CascadeClassifier("./classifier.xml")
+
     @pyqtSlot(cv.iplimage)
     def _onNewFrame(self, frame):
         self._frame = cv.CloneImage(frame)
@@ -37,9 +41,16 @@ class CameraWidget(QWidget):
     def paintEvent(self, event):
         if self._frame is None:
             return
+        tmp = numpy.asarray(self._frame[:,:])
+        gray = cv2.cvtColor(tmp, cv2.COLOR_BGR2GRAY)
+        faces = self._faceCascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
+                                                   flags = cv.CV_HAAR_SCALE_IMAGE)
         painter = QPainter(self)
         frame = QImage(self._frame.tostring(), self._frame.width, self._frame.height, QImage.Format_RGB888).rgbSwapped()
         painter.drawImage(QPoint(0, 0), frame)
+        painter.setPen(Qt.green)
+        for (x,y,w,h) in faces:
+            painter.drawRect(x,y,w,h)
 
 
 

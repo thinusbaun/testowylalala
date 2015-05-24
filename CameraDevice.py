@@ -4,7 +4,7 @@ from PyQt5.QtCore import *
 import cv2
 
 class CameraDevice(QObject):
-    __DEFAULT_FPS = 30
+    __DEFAULT_FPS = 15
 
     newFrameAvailable = pyqtSignal(cv2.cv.iplimage)
 
