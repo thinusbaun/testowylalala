@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import CameraWidget
 import CameraDevice
+import mainWindow
 
 
 
@@ -39,10 +40,12 @@ class MyDialog(QDialog):
 if __name__=="__main__":
     import sys
     app = QApplication(sys.argv)
+    w = mainWindow.MainWindow()
+    w.show()
     # w = MyDialog()
     # w.resize(600, 400)
     # w.show()
-    device = CameraDevice.CameraDevice()
-    widget = CameraWidget.CameraWidget(device)
-    widget.show()
-    app.exec_()
+    # device = CameraDevice.CameraDevice()
+    # widget = CameraWidget.CameraWidget(device)
+    # widget.show()
+    sys.exit(app.exec_())
