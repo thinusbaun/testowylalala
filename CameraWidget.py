@@ -52,5 +52,19 @@ class CameraWidget(QWidget):
         for (x,y,w,h) in faces:
             painter.drawRect(x,y,w,h)
 
+    def getFaceRectangle(self):
+        if self._frame is None:
+            return
+        tmp = numpy.asarray(self._frame[:,:])
+        gray = cv2.cvtColor(tmp, cv2.COLOR_BGR2GRAY)
+        faces = self._faceCascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
+                                                   flags = cv.CV_HAAR_SCALE_IMAGE)
+        if len(faces) == 1:
+            frame = QImage(self._frame.tostring(), self._frame.width, self._frame.height, QImage.Format_RGB888).rgbSwapped()
+            for (x,y,w,h) in faces:
+                return frame.copy(x,y,w,h)
+        else:
+            return
+
 
 

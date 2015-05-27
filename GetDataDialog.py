@@ -8,9 +8,9 @@ from PyQt5.QtWidgets import *
 from CameraDevice import CameraDevice
 from CameraWidget import CameraWidget
 
-class GetDataDialog(QDialog):
 
-    def __init__(self, userName, parent = None):
+class GetDataDialog(QDialog):
+    def __init__(self, userName, parent=None):
         super(GetDataDialog, self).__init__(parent)
         self.userName = userName
         self.picturesLeft = 5
@@ -32,17 +32,18 @@ class GetDataDialog(QDialog):
         self.secondLayout.addWidget(self.picturesLeftLabel)
         self.mainLayout.addLayout(self.secondLayout)
 
-
     @pyqtSlot()
     def pictureButtonClicked(self):
         if self.picturesLeft == 0:
             self.close()
-        frame = QImage(self.cameraWidget._frame.tostring(), self.cameraWidget._frame.width, self.cameraWidget._frame.height, QImage.Format_RGB888).rgbSwapped()
-        frame.save("./dane/{}/{}.bmp".format(self.userName, self.picturesLeft))
-        self.picturesLeft -= 1
-        self.picturesLeftLabel.setText("Pozostało zdjęć: {}".format(self.picturesLeft))
-        if self.picturesLeft == 0:
-            self.getPictureButton.setText("Zamknij")
+
+        frame = self.cameraWidget.getFaceRectangle()
+        if frame is not None:
+            frame.save("./dane/{}/{}.bmp".format(self.userName, self.picturesLeft))
+            self.picturesLeft -= 1
+            self.picturesLeftLabel.setText("Pozostało zdjęć: {}".format(self.picturesLeft))
+            if self.picturesLeft == 0:
+                self.getPictureButton.setText("Zamknij")
 
     def checkUserName(self):
         self.picturesLeft = 0 if os.path.exists("./dane/{}".format(self.userName)) else 5
