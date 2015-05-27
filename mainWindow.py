@@ -26,9 +26,6 @@ class MainWindow(QMainWindow):
         userNameInputDialog, ok = QInputDialog.getText(self,"GetUserName","Nazwa użytkownika:", QLineEdit.Normal,
                                                    QDir.home().dirName())
         if ok:
-            dialog = GetDataDialog(self)
+            dialog = GetDataDialog(userNameInputDialog, self)
             dialog.exec_()
         self.close()
-
-
-
