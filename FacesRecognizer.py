@@ -9,6 +9,7 @@ class FacesRecognizer:
 
     def __init__(self):
         self.model = cv2.createEigenFaceRecognizer()
+        self.labels = []
 
     def trainModel(self):
         imagesDict = {}
@@ -29,7 +30,7 @@ class FacesRecognizer:
         tmp = self.createLists(imagesDict)
         tmp1 = numpy.asarray(tmp[0])
         tmp2 = numpy.asarray(tmp[1])
-        self.labels = tmp[2]
+        self.labels = dict(zip(tmp2,tmp[2]))
         self.model.train(tmp1, tmp2)
 
     def createLists(self, imagesDict):
@@ -37,15 +38,14 @@ class FacesRecognizer:
         labels = []
         classes = []
         for key in imagesDict.keys():
+            i = 0
             for image in imagesDict[key]:
-                classes.append(len(classes))
+                classes.append(i)
                 labels.append(key)
                 images.append(image)
-
-        print(images)
-        print(classes)
+            i += 1
         return (images, classes, labels)
 
     def recognizePerson(self, image):
         resizedImage = cv2.resize(image, (100, 100))
-        self.model.predict(numpy.asarray(resizedImage))
+        return self.model.predict(numpy.asarray(resizedImage))
