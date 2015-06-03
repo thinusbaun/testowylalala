@@ -14,7 +14,6 @@ class GetDataDialog(QDialog):
         self.userName = userName
         self.picturesLeft = 5
 
-        self.checkUserName()
 
         self.cameraDevice = CameraDevice()
         self.cameraWidget = CameraWidget(self.cameraDevice, self)
@@ -30,6 +29,7 @@ class GetDataDialog(QDialog):
         self.secondLayout.addWidget(self.getPictureButton)
         self.secondLayout.addWidget(self.picturesLeftLabel)
         self.mainLayout.addLayout(self.secondLayout)
+        self.checkUserName()
 
     @pyqtSlot()
     def pictureButtonClicked(self):
