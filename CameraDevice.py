@@ -42,7 +42,6 @@ class CameraDevice(QObject):
         else:
             self._timer.start()
 
-
     @property
     def fps(self):
         fps = int(cv2.cv.GetCaptureProperty(self._cameraDevice, cv2.cv.CV_CAP_PROP_FPS))
