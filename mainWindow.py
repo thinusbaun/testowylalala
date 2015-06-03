@@ -4,6 +4,7 @@ __author__ = 'michal'
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from GetDataDialog import GetDataDialog
+from FacesRecognizer import FacesRecognizer
 
 
 class MainWindow(QMainWindow):
@@ -16,6 +17,7 @@ class MainWindow(QMainWindow):
         self.getDataButton = QPushButton("Zbierz dane", self)
         self.identificationButton = QPushButton("Identyfikacja", self)
         self.getDataButton.clicked.connect(self.getData)
+        self.identificationButton.clicked.connect(self.identificationButtonClicked)
 
         self.mainLayout.addWidget(self.getDataButton)
         self.mainLayout.addWidget(self.identificationButton)
@@ -29,3 +31,9 @@ class MainWindow(QMainWindow):
             dialog = GetDataDialog(userNameInputDialog, self)
             dialog.exec_()
         self.close()
+
+    @pyqtSlot()
+    def identificationButtonClicked(self):
+        tmp = FacesRecognizer()
+        tmp.trainModel()
+        pass
