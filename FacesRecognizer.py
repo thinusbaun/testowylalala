@@ -29,6 +29,7 @@ class FacesRecognizer:
         tmp = self.createLists(imagesDict)
         tmp1 = numpy.asarray(tmp[0])
         tmp2 = numpy.asarray(tmp[1])
+        self.labels = tmp[2]
         self.model.train(tmp1, tmp2)
 
     def createLists(self, imagesDict):
